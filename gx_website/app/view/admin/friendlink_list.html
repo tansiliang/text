@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>友情链接列表</title>
+    <style type="text/css">
+	tr{
+	width:1129px
+	}
+    div{
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1118px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+	background-image:url(images/list.gif);
+	background-repeat:no-repeat;
+	background-position:left;
+	}
+	div a{
+	display:inline-block;
+	-padding:4px;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	div a:hover{
+	color:#FF0000;
+	}
+	table{
+	width:1130px;
+	height:auto;
+	}
+	td{
+	padding:12px;
+	text-align:center;
+	}
+	#id1,#id2{
+	background-color:#D4E7F0;	
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	font-size:18px;
+	}
+	td [href]{/*日志，编辑*/
+	text-decoration:none;
+	background-color:CC840E;
+	color:#00FF66;
+	}
+	td [href]+[href]{
+	color:#3333FF;
+	}
+	td [href]:hover{
+	color:#FF0000;
+	font-weight:bolder;
+	font-size:15px;
+	}
+	td [onClick]{/*删除*/
+	color:red;
+	font-weight:bolder;
+	}
+	td [onClick]:hover{
+	color:#FF0000;
+	display:inline-block;
+	background-color:#FF0000;
+	color:#FFFFFF;
+    }
+	#id3,#id4{
+	background-color:#F0F9FD;
+	}
+	</style>
+</head>
+<body>
+    <div><a href="index.php?p=admin&c=Friend&a=addPage">添加链接</a></div>
+    <table border="1" rules="all">
+        <tr id="id1">
+            <td>编号</td>
+            <td>链接名称</td>
+            <td>链接地址</td>
+            <td>是否显示</td>
+            <td>调整顺序</td>
+            <td>操作</td>
+        </tr>
+        <?php $m = 1; ?>
+        <?php foreach($list as $row): ?>
+        <tr>
+            <td id="id2"><?php echo $m++; ?></td>
+            <td id="id3"><?php echo $row['link_name'] ?></td>
+            <td id="id3"><?php echo $row['link_url']; ?></td>
+            <td id="id3"><img src="./app/view/admin/images/<?php echo $row['link_show']==1?'yes':'no'; ?>.gif" /></td>
+            <td id="id3"><?php echo $row['show_order']; ?></td>
+            <td id="id4"><a href="index.php?p=admin&c=Friend&a=sele&id=<?php echo $row['link_id']; ?>">编辑</a>
+                <a onClick="if(confirm('确定删除管理员？')){ this.href='index.php?p=admin&c=Friend&a=del&id=<?php echo $row['link_id']; ?>';}">删除</a></td>
+        </tr>
+        <?php endForeach; ?>
+    </table>
+</body>
+</html>

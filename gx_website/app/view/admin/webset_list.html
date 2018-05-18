@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>网页设置</title>
+	<style type="text/css">
+		tr {
+			width: 1152px;
+		}
+
+		div {
+			color: #FF0000;
+			background-color: #0099FF;
+			width: 1145px;
+			height: 30px;
+			display: inline-block;
+			padding: 10px 0 0 10px;
+			box-shadow: 1px 1px 5px #888888;
+			background-image: url(images/list.gif);
+			background-repeat: no-repeat;
+			background-position: left;
+		}
+
+		div a {
+			display: inline-block;
+			-padding: 4px;
+			text-decoration: none;
+			color: #FFFFFF;
+		}
+
+		div a:hover {
+			color: #FF0000;
+		}
+
+		table {
+			height: auto;
+		}
+
+		td {
+			padding: 12px;
+			text-align: center;
+		}
+
+		#id1,
+		#id2 {
+			background-color: #D4E7F0;
+			font-weight: bolder;
+			font-family: "微软雅黑";
+			font-size: 18px;
+		}
+
+		td [href] {
+			/*日志，编辑*/
+			text-decoration: none;
+			background-color: CC840E;
+			color: #00FF66;
+		}
+
+		td [href]+[href] {
+			color: #3333FF;
+		}
+
+		td [href]:hover {
+			color: #FF0000;
+			font-weight: bolder;
+			font-size: 15px;
+		}
+
+		td [onClick] {
+			/*删除*/
+			color: red;
+			font-weight: bolder;
+		}
+
+		td [onClick]:hover {
+			color: #FF0000;
+			display: inline-block;
+			background-color: #FF0000;
+			color: #FFFFFF;
+		}
+
+		#id3,
+		#id4 {
+			background-color: #F0F9FD;
+		}
+
+		/*#id1 td{width:75px}
+	#id1 td+td+td{width:150px}
+	#id1 td+td+td+td{width:60px}*/
+
+		#id1 td+td+td+td+td {
+			width: 100px
+		}
+	</style>
+</head>
+
+<body>
+	<div>
+		<a href="index.php?p=admin&c=Webset&a=addPage">添加网站设置</a>
+	</div>
+	<table border="1" rules="all">
+		<tr id="id1">
+			<td>编号</td>
+			<td>网站名称</td>
+			<td>标题</td>
+			<td>标题图标</td>
+			<td>seo关键字</td>
+			<td>描述</td>
+			<td>是否显示</td>
+			<td>操作</td>
+		</tr>
+		<?php $m = 1; ?>
+		<?php foreach($list as $row): ?>
+		<tr>
+			<td id="id2">
+				<?php echo $m++; ?>
+			</td>
+			<td id="id3">
+				<?php echo $row['web_name']; ?>
+			</td>
+			<td id="id3">
+				<?php echo $row['web_title']; ?>
+			</td>
+			<td id="id3">
+				<img width="20" height="20" alt="图片出错" src="./app/uploaded/<?php echo $row['web_title_ico']; ?>" />
+			</td>
+			<td id="id3">
+				<?php echo $row['web_seo']; ?>
+			</td>
+			<td id="id3">
+				<?php echo $row['web_bewrite'] ?>
+			</td>
+			<td id="id3">
+				<img src="./app/view/admin/images/<?php echo $row['web_show']==1?'yes':'no'; ?>.gif" />
+			</td>
+			<td id="id4">
+				<a href="index.php?p=admin&c=Webset&a=sele&id=<?php echo $row['web_id']; ?>">编辑</a>
+				<a onClick="if(window.confirm('确定删除吗？')){ this.href='index.php?p=admin&c=Webset&a=del&id=<?php echo $row['web_id']; ?>';}">删除</a>
+			</td>
+		</tr>
+		<?php endForeach; ?>
+	</table>
+</body>
+
+</html>

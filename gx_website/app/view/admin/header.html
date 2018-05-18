@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="lin">
+<meta charset="utf-8" />
+<head>
+        <script language="JavaScript" src="./app/view/admin/styles/jquery.js"></script>
+        <link href="./app/view/admin/styles/header.css" rel="stylesheet" type="text/css" />
+        
+</head>
+<body>
+    <div id="header">
+        <img src='./app/view/admin/images/logo1.jpg' height="100px"/>
+        <div class="topright">    
+            <ul>
+            <li><span><img src="./app/view/admin/images/help.png" title="帮助"  class="helpimg"/></span><a href="#">帮助</a></li>
+            <li><a href="#">个人设置</a></li>
+            <li><a href="#">刷新</a></li>
+            <li><a href="#">关于</a></li>
+            <li><a href="index.php?p=admin&c=Index&a=die" target="_top">退出</a></li>
+            </ul>
+             
+            <div class="user">
+            <span><a id="admin_a" href="index.php?p=admin&c=Admin&a=sele&id=<?php echo $list['ad_id'] ?>" target="contents"><?php echo $list['ad_username']; ?></a></span>
+            
+            </div>    
+        </div>
+    </div>
+   
+
+</body>
+</html>

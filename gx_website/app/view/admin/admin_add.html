@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>管理员信息添加</title>
+    <script src="./app/view/admin/js/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var values = "";
+            //处理用户名jQuery
+            var name = $("#ad_username").val();//获取用户名值
+            if(name == ""){
+                $("#nametext").text("用户名不能为空！！！");
+            }
+           $("#ad_username").change(function(){
+            var name = $("#ad_username").val();//获取用户名值
+               $.ajax({
+                url: "index.php?p=admin&c=Admin&a=ajaxname",
+                type: "post",
+                data: "username="+name,
+                dataType: "html",
+                success:function(error_info){
+                    if(error_info == "用户名已存在,请重新输入！！！"){
+                          $("#nametext").html(error_info);
+                          values = false;
+                          return values;
+                    }else{
+                        $("#nametext").html(error_info);
+                        values = true;
+                        return values;
+                    }
+                }
+               });
+           });
+
+           //处理email的jQuery
+           var email = $("#ad_mail").val();//取值
+           if(email == ""){
+               $("#emailtext").text("邮箱不能为空！！！");
+           }
+           $("#ad_mail").change(function(){
+               email = $("#ad_mail").val();
+               //判断邮箱格式,1398599250@qq.com
+               var reg = /^\w+@\w+\.\w+[(com)||(cn)]$/;
+               if(reg.test(email) == false){
+                   $("#emailtext").text("邮箱格式不正确，请重新输入！！！");
+                   var values = false;
+                   return values;
+               }else{
+                $("#emailtext").html("<img src='./app/view/admin/images/yes.gif' />");
+               }
+           });
+
+           //处理密码的jQuery
+           var pass = $("#ad_pass").val();
+           if(pass == ''){
+               $("#passtext").text("密码不能为空！！！");
+           }
+           $("#ad_pass").change(function(){
+               pass = $("#ad_pass").val();
+               var reg = /^[a-zA-Z0-9_]{4,16}$/;
+               if(reg.test(pass) == false){
+                   $("#passtext").text("密码格式不正确,密码应该4-16位数字、字母或下划线!!!");
+                   var values = false;
+                   return values;
+               }else{
+                $("#passtext").html("<img src='./app/view/admin/images/yes.gif' />");
+               }
+           });
+           
+           //判断两次的密码是否一致
+           $("#ad_userpass").blur(function(){
+               var password = $("#ad_userpass").val();
+               var pass = $("#ad_pass").val();
+           if(password != pass){
+               $("#passwordtext").text("密码不一致！！！");
+               var values = false;
+               return values;
+           }else{
+               $("#passwordtext").html("<img src='./app/view/admin/images/yes.gif' />");
+           }
+           });
+           //提交表单的时候
+           $("#ad_submit").click(function(){
+            var password = $("#ad_userpass").val();//密码
+            var email = $("#ad_mail").val();//邮箱
+            var name = $("#ad_username").val();//获取用户名值
+               if(name == "" || email == "" || password == "" || values == false){
+                   alert("添加失败！！！");
+                   return false;
+               }
+           });
+            
+            });
+    </script>
+    <style type="text/css">
+	table,tr,td{
+	-border:1px black solid;
+	}
+	table{
+	width:1155px;
+	height:270px;
+	rules:all;
+	}
+	table tr td{/表格左侧
+	background-color:F8F9FD;
+	border-bottom:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+	-border-top:1px solid #CCCCCC;
+	text-align:right;
+	font-size:20px;
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	width:25%;
+	padding-right:15px;
+	background-color:#F8F9FD;
+	}
+	table tr td+td{/*表格中部*/
+	border-right:0px solid #CCCCCC;
+	width:50%;
+	color:red;
+	font-family:"宋体";
+	font-size:15px;
+	text-align:left;
+	}
+	#ad_username,#ad_mail,#ad_pass,#ad_userpass{/*输入框*/
+	margin-left:15px;
+	width:490px;
+	height:35px;
+	}
+	form div{
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1140px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+	}
+	form div a{
+	display:inline-block;
+	-padding:4px;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	form div a:hover{
+	color:#FF0000;
+	font-size:15px;
+	}
+    #ad_submit{/*提交*/
+	color:#FF0000;
+	width:110px;
+	height:50px;
+	margin-top:10px;
+	margin-left:335px;
+	background-image:url(images/body.gif);
+	  font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color:blue;
+    background-color:dodgerblue;
+	}
+	#ad_submit:hover{/*提交*/
+	color:red;
+	font-weight:bolder;
+	}
+    #ad_reset{/*重置*/
+	color:#FF0000;
+    width:110px;
+	height:50px;
+	margin-left:230px;
+	background-image:url(images/body.gif);
+		font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color:red;
+    background-color:dodgerblue;
+	}
+	#ad_reset:hover{/*重置*/
+	color:white;
+	font-weight:bolder;
+    }
+    </style>
+</head>
+<body>
+    <form method="post" action="index.php?p=admin&c=Admin&a=add">
+        <div><a href="index.php?p=admin&c=Admin&a=list">管理员列表</a></div>
+        <table>
+            <tr>
+                <td>用户名</td>
+                <td><input type="text" name="ad_username" id="ad_username" placeholder="请输入管理员用户名"/></td>
+                <td id="nametext"></td>
+            </tr>
+            <tr>
+                <td>Email地址</td>
+                <td><input type="text" name="ad_mail" id="ad_mail" placeholder="请输入邮箱"/></td>
+                <td id="emailtext"></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td><input type="password" name="ad_pass" id="ad_pass" placeholder="请输入密码"/></td>
+                <td id="passtext"></td>
+            </tr>
+            <tr>
+                <td>确认密码</td>
+                <td><input type="password" name="ad_userpass" id="ad_userpass" placeholder="请确认密码"/></td>
+                <td id="passwordtext"></td>
+            </tr>
+        </table>
+        <input type="submit" name="ad_submit" id="ad_submit" />
+        <input type="reset" name="ad_reset" id="ad_reset" />
+    </form>
+</body>
+</html>

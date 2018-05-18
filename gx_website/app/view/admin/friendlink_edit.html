@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>友情链接编辑</title>
+    <script src="./app/view/admin/js/jquery-3.3.1.min.js"></script>
+    <script >
+        $("document").ready(function(){
+            var values = true;
+            //处理导航名
+            $("#link_name").change(function(){
+            var ids = "<?php echo $_GET['id']; ?>";
+            var name = $("#link_name").val();
+            if(name == ""){
+                $("#nametext").text("更改的导航名不能为空！！！");
+            }else{
+            $.ajax({
+                url:"index.php?p=admin&c=Friend&a=editname",
+                data:"link_name="+name+"&id="+ids,
+                type:"post",
+                dataType:"html",
+                success:function(info){
+                    if(info == "导航名已存在！！！"){
+                        $("#nametext").text(info);
+                        var values = false;
+                        return values;
+                    }else{
+                        $("#nametext").html(info);
+                        var values = true;
+                        return values;
+                    }
+                }
+            });
+        }
+        });
+
+        //处理URL
+        $("#link_url").change(function(){
+            var ids = "<?php echo $_GET['id']; ?>";
+            var url = $("#link_url").val();
+            if(url == ""){
+                $("#urltext").text("更改的url地址不能为空！！！");
+            }else{
+            $.ajax({
+                url:"index.php?p=admin&c=Friend&a=ajaxediturl",
+                data:"link_url="+url+"&id="+ids,
+                type:"post",
+                dataType:"html",
+                success:function(info){
+                    if(info == "URL路径已存在！！！"){
+                        $("#urltext").text(info);
+                        var values = false;
+                        return values;
+                    }else{
+                        $("#urltext").html(info);
+                        var values = true;
+                        return values;
+                    }
+                }
+            });
+        }
+        });
+         //处理显示顺序
+         var order = $("#link_order").val();
+            if(order == ""){
+                $("#ordertext").text("不能为空！！！");
+            }
+            $("#link_order").blur(function(){
+                var order = $("#link_order").val();
+                if(isNaN(order)){
+                    $("#ordertext").text("显示顺序的值必须为数值，请重新输入！！！");
+                    values = false;
+                    return values;
+                }else{
+                    $("#ordertext").html("<img src='./app/view/admin/images/yes.gif' />");
+                    var values = true;
+                    return values;
+                }
+            });
+            //处理提交按钮
+            $("#link_submit").click(function(){
+                var name = $("#link_name").val();
+                var urldz = $("#link_url").val();
+                if(values == false || name == "" || urldz == ""){
+                    alert("提交失败！！！");
+                    return false;
+                }
+            });
+        });
+    </script>
+    <style type="text/css">
+	table,tr,td{
+	-border:1px black solid;
+	}
+	table{
+	width:1130px;
+	height:270px;
+	rules:all;
+	}
+	table tr td{/表格左侧
+	background-color:F8F9FD;
+	border-bottom:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+	-border-top:1px solid #CCCCCC;
+	text-align:right;
+	font-size:20px;
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	width:20%;
+	padding-right:15px;
+	background-color:#F8F9FD;
+	}
+	table tr td+td{/*中间*/
+	border-right:0px solid #CCCCCC;
+	width:50%;
+	color:red;
+	font-family:"宋体";
+	font-size:15px;
+	text-align:left;
+	}
+	#link_name,#link_url,#link_order{/*输入框*/
+	margin-left:15px;
+	width:490px;
+	height:35px;
+	}
+	#link_show{/*显示*/
+	margin-left:20px;
+	}
+	div{
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1118px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+	}
+	div a{
+	display:inline-block;
+	-padding:4px;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	div a:hover{
+	color:#FF0000;
+	font-size:15px;
+	}
+    #link_submit{/*提交*/
+	color:#FF0000;
+	width:110px;
+	height:50px;
+	margin-top:10px;
+	margin-left:305px;
+	background-image:url(images/body.gif);
+	}
+    #link_reset{/*重置*/
+	color:#FF0000;
+    width:110px;
+	height:50px;
+	margin-left:170px;
+	background-image:url(images/body.gif);
+	}
+    </style>
+</head>
+<body>
+<div id=""><a href="index.php?p=admin&c=Friend&a=list">链接列表</a></div>
+    <form method="post" action="index.php?p=admin&c=Friend&a=edit">
+        <table>
+                <tr>
+                    <td>链接名称</td>
+                    <td><input type="text" value="<?php echo $list['link_name']; ?>" name="link_name" id="link_name" /></td>
+                    <td id="nametext"></td>
+                </tr>
+                <tr>
+                    <td>URL地址</td>
+                    <td><input type="text" value="<?php echo $list['link_url']; ?>" name="link_url" id="link_url" /></td>
+                    <td id="urltext"></td>
+                </tr>
+                <tr>
+                    <td>是否显示</td>
+                    <td><input type="checkbox" value="1" name="link_show" id="link_show" <?php echo $list['link_show'] ==1?'checked':''?> />显示</td>
+                    <td>勾选是显示，不勾选是不显示</td>
+                </tr>
+                <tr>
+                    <td>调整顺序</td>
+                    <td><input type="text" value="<?php echo $list['show_order']; ?>" name="show_order" id="link_order" /></td>
+                    <td id="ordertext"></td>
+                </tr>
+        </table>
+        <input type="hidden" name="link_id" id="link_id" value="<?php echo $list['link_id'] ?>" />
+        <input type="submit" name="link_submit" id="link_submit" />
+        <input type="reset" name="link_reset" id="link_reset" />
+    </form>
+    
+</body>
+</html>

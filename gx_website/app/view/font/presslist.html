@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+        <!-- 显示标题图片 -->
+        <?php $web = $webset[0]; ?><!-- 网站设置信息 -->
+        <link rel="shortcut icon" href="./app/uploaded/<?php echo $web['web_show']==1?$web['web_title_ico']:''; ?>" />
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="keywords" content="<?php echo $web['web_show']==1?$web['web_seo']:''; ?>" />
+      <!-- 关键字，描述信息 -->
+      <meta name="description" content="<?php echo $web['web_show']==1?$web['web_bewrite']:''; ?>">
+      <title><?php echo $web['web_show']==1?$web['web_title']:'广东高新技术技工学校'; ?></title>
+    <link href="./app/view/font/styles/presslist.css" rel="stylesheet"  type="text/css" />
+    
+</head>
+<body>
+    <header id="header_bg">
+        <div id="header_logo">
+        <img src="./app/view/font/images/logo.jpg" /></div>
+        <div id="header_naviga">
+            <div id="header_top">
+                <ul class="header_ul">
+                    <li class="header_li"><a href="index.php?p=font&c=Index&a=list" class="header_a1"><img src="./app/view/font/images/hore.jpg" /></a></li>
+                    <?php $m = 1;
+                    foreach($navigatop as $top):
+                    if($top['naviga_bar']== 1 and $top['dree'] == 0 and $m++ < 9){ ?>
+                    <li class="header_li"><a href="<?php echo $top["naviga_url"]; ?>&id=<?php echo $top['naviga_id'] ?>&ids=<?php echo $top['naviga_id'] ?>" class="header_a"><?php echo $top["naviga_name"] ?></a></li>
+                    <?php }
+                    endForeach; ?>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div id="content">
+        <div id="content_div1">
+        </div>
+        <!-- 左侧列表 -->
+        <div id="content_div2">
+            <div id="content_left">
+                <h4 id="content_h3"><?php 
+                    foreach($navigatop as $h){
+                        if($id == $h['naviga_id'] || @$navigas['naviga_parent'] == $h['naviga_id']){
+                            echo $h['naviga_name'];
+                        }
+                    }
+                    ?></h4>
+                <ul id="content_left_ul">
+                    <?php foreach($naviga_list as $navigas): 
+                    if($navigas['dree']==1 && $navigas['naviga_bar'] == 1 && $navigas['naviga_parent']==$id){?>
+                    <li class="content_left_li" id="content_li"><a href="<?php echo $navigas['naviga_url'] ?>&id=<?php echo $navigas['naviga_parent']; ?>&ids=<?php echo $navigas['naviga_id']; ?>" target="content_nr"><?php echo $navigas['naviga_name'] ?></a></li>
+                    <?php }endForeach; ?>
+                </ul>
+            </div>
+            <!-- 内容 -->
+            <div id="content_right">
+                <div id="content_right_top">
+                    <h5>您当前所在的位置：<?php 
+                        foreach($navigatop as $h){
+                            if($id == $h['naviga_id'] || @$navigas['naviga_parent'] == $h['naviga_id']){
+                                echo "<a href='".$h['naviga_url']."&id=".$h['naviga_id']."&ids=". $h['naviga_id']."'>".$h['naviga_name']."</a>";
+                            }
+                        }
+                        ?></h5>
+                </div>
+                <div id="contnet_right_bottom" name="content_nr">
+                    <!-- <?php var_dump($works); ?> -->
+                    <?php echo $works['works_content']; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <div class="d5">
+            <?php $m=1;
+            foreach($navigafoot as $foot):
+            if($foot['foot_show'] == 1 && $m++ < 7){ ?>
+          <a href="<?php echo $foot['foot_url']; ?>"><?php echo $foot['foot_name']; ?></a>
+          <?php }endForeach; ?>
+          </div>
+          <div class="d6">
+              <p>友情链接：<?php $m1 = 1;
+              foreach($friendlink as $link):
+              if($m1++ < 3 && $link['link_show'] == 1){ ?>
+             <a href="<?php echo $link['link_url']; ?>"><?php echo $link['link_name']; ?></a>
+             <?php }
+             endForeach;?>
+             </p>
+            <?php 
+            $m = 1;
+            foreach($footinfo as $info):
+            if($m++ < 2 && $info['info_show'] == 1){ ?>
+            
+            <p>版权所有： <?php echo $info['info_copy']; ?>  <?php echo $info['info_url']; ?>  备案号：<a href="<?php echo $info['info_icp_url']; ?>"><?php echo $info['info_icp']; ?></a> </p>
+            <p>官方QQ：<?php echo $info['info_qq']; ?>  官方微信：<?php echo $info['info_wx']; ?>  新浪官方微博：<a href="<?php echo $info['info_wb_url'] ?>"><?php echo $info['info_wb']; ?></a> </p>
+            <p>地址：<?php echo $info['info_dz']; ?> </p>
+            <p>邮编：<?php echo $info['info_email']; ?>
+              电话：<?php echo $info['info_phone']; ?> </p>
+              <?php }
+              endForeach;?>
+              <!-- <?php var_dump($info);?> -->
+          </div> 
+</body>
+</html>

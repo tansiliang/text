@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+        <!-- 显示标题图片 -->
+        <?php $web = $webset[0]; ?><!-- 网站设置信息 -->
+        <link rel="shortcut icon" href="./app/uploaded/<?php echo $web['web_show']==1?$web['web_title_ico']:''; ?>" />
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="keywords" content="<?php echo $web['web_show']==1?$web['web_seo']:''; ?>" />
+      <!-- 关键字，描述信息 -->
+      <meta name="description" content="<?php echo $web['web_show']==1?$web['web_bewrite']:''; ?>">
+      <title><?php echo $web['web_show']==1?$web['web_title']:'广东高新技术技工学校'; ?></title>
+    <link href="./app/view/font/styles/presslist.css" rel="stylesheet"  type="text/css" />
+</head>
+<body>
+    <header id="header_bg">
+        <div id="header_logo">
+        <img src="./app/view/font/images/logo.jpg" /></div>
+        <div id="header_naviga">
+            <div id="header_top">
+                <ul class="header_ul">
+                    <li class="header_li"><a href="index.php?p=font&c=Index&a=list" class="header_a1"><img src="./app/view/font/images/hore.jpg" /></a></li>
+                    <?php $m = 1;
+                    foreach($navigatop as $top):
+                    if($top['naviga_bar']== 1 and $top['dree'] == 0 and $m++ < 9){ ?>
+                    <li class="header_li"><a href="<?php echo $top["naviga_url"]; ?>&id=<?php echo $top['naviga_id'];?>" class="header_a"><?php echo $top["naviga_name"] ?></a></li>
+                    <?php }
+                    endForeach; ?>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div id="content">
+        <div id="content_div1">
+        </div>
+        <!-- 左侧列表 -->
+        <div id="content_div2">
+            <div id="content_left_works">
+                <h4 id="content_h3">热点新闻</h4>
+                <ul id="content_left_ul">
+                    <?php foreach($press_host as $host):  
+                     if($host['press_hot'] == 1){?>
+                    <li class="content_left_lis"><a href="index.php?p=font&c=Index&a=workslist&id=<?php echo $host['press_id'] ?>" target="content_nr"><?php echo $host['press_title']; ?></a></li>
+                    <?php }endForeach; ?>
+                </ul>
+            </div>
+            <!-- 内容 -->
+            <div id="content_right_works">
+                <div id="content_right_top">
+                    <h5>您当前所在的位置：<a href="index.php?p=font&c=Index&a=getlist" >新闻列表页</a>>新闻详细页</h5>
+                    <h3 style="text-align:center;"><?php echo $press['press_title']; ?></h3>
+                </div>
+                <div id="contnet_right_bottom" name="content_nr">
+                    <!-- <?php var_dump($press); ?> -->
+                    <?php date_default_timezone_set("Asia/Shanghai"); ?>
+                    <p style="text-align:center;"><span>来源：<?php echo $press['press_author']; ?></span><span>点击次数：<?php echo $press['press_click'];?>次</span><span>发布时间：<?php echo date('Y-m-d',$press['press_releaseTime']); ?></span></p>
+                    
+                    <?php echo $press['press_content']; ?>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <div class="d5">
+            <?php $m=1;
+            foreach($navigafoot as $foot):
+            if($foot['foot_show'] == 1 && $m++ < 7){ ?>
+          <a href="<?php echo $foot['foot_url']; ?>"><?php echo $foot['foot_name']; ?></a>
+          <?php }endForeach; ?>
+          </div>
+          <div class="d6">
+              <p>友情链接：<?php $m1 = 1;
+              foreach($friendlink as $link):
+              if($m1++ < 3 && $link['link_show'] == 1){ ?>
+             <a href="<?php echo $link['link_url']; ?>"><?php echo $link['link_name']; ?></a>
+             <?php }
+             endForeach;?>
+             </p>
+            <?php 
+            $m = 1;
+            foreach($footinfo as $info):
+            if($m++ < 2 && $info['info_show'] == 1){ ?>
+            
+            <p>版权所有： <?php echo $info['info_copy']; ?>  <?php echo $info['info_url']; ?>  备案号：<a href="<?php echo $info['info_icp_url']; ?>"><?php echo $info['info_icp']; ?></a> </p>
+            <p>官方QQ：<?php echo $info['info_qq']; ?>  官方微信：<?php echo $info['info_wx']; ?>  新浪官方微博：<a href="<?php echo $info['info_wb_url'] ?>"><?php echo $info['info_wb']; ?></a> </p>
+            <p>地址：<?php echo $info['info_dz']; ?> </p>
+            <p>邮编：<?php echo $info['info_email']; ?>
+              电话：<?php echo $info['info_phone']; ?> </p>
+              <?php }
+              endForeach;?>
+              <!-- <?php var_dump($info);?> -->
+          </div> 
+</body>
+</html>

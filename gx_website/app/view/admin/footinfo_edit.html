@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<style type="text/css">
+	table,tr,td{
+	-border:1px black solid;
+	}
+	table{
+	width:1130px;
+	height:270px;
+	rules:all;
+	}
+	table tr td{/*表格左侧*/
+	background-color:F8F9FD;
+	border-bottom:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+	-border-top:1px solid #CCCCCC;
+	text-align:right;
+	font-size:20px;
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	width:20%;
+	padding:8px 15px 8px 0px;
+	background-color:#F8F9FD;
+	}
+	table tr td+td{/*中间*/
+	border-right:0px solid #CCCCCC;
+	width:50%;
+	color:red;
+	font-family:"宋体";
+	font-size:15px;
+	text-align:left;
+	}
+	#info_copy,#info_url,#info_icp,#info_icp_url,#info_qq,#info_wb,#info_wx,info_wb,#info_wb_url,#info_dz,#info_email,#info_phone{/*输入框*/
+	margin-left:15px;
+	width:490px;
+	height:35px;
+	}
+	#naviga_parent,#naviga_bar{
+	margin-left:15px;
+	}
+	#info_show{/*显示*/
+	margin-left:20px;
+	width:30px;
+	height:30px;
+	}
+	div{
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1118px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+	}
+	div a{
+	display:inline-block;
+	-padding:4px;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	div a:hover{
+	color:#FF0000;
+	font-size:15px;
+	}
+    #info_submit{/*提交*/
+	color:#FF0000;
+	width:110px;
+	height:50px;
+	margin-top:10px;
+	margin-left:305px;
+	background-image:url(images/body.gif);
+	}
+    #info_reset{/*重置*/
+	color:#FF0000;
+    width:110px;
+	height:50px;
+	margin-left:170px;
+	background-image:url(images/body.gif);
+	}
+    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>编辑页脚信息页面</title>
+    <script src="./app/view/admin/js/jquery-3.3.1.min.js"></script>
+    
+    <script>
+        $("dcoument").ready(function(){
+            $("#info_qq").change(function(){
+                var qq = $("#info_qq").val();
+                if(qq == ""){
+                    $("#qqtext").text("更改的qq值不能为空！！！");
+                    values = false;
+                    return values;
+                }else if(qq.length > 10 || qq.length < 5 ){
+                    $("#qqtext").text("qq的格式不正确!!!");
+                    values = false;
+                    return values;
+                }else if(isNaN(qq)){
+                    $("#qqtext").text("qq只能为10位一下的数值！！！");
+                    values = false;
+                    return values;
+                }else{
+                    $("#qqtext").html("<img src='./app/view/admin/images/yes.gif' />");
+                    values = true;
+                    return values;
+                }
+            });
+            //处理微信
+            $("#info_wx").change(function(){
+                var wx = $("#info_wx").val();
+                if(wx == ""){
+                    $("#wxtext").text("更改的微信不能为空！！！");
+                    values = false;
+                    return values;
+                }else{
+                    $("#wxtext").html("<img src='./app/view/admin/images/yes.gif' />");
+                    values = true;
+                    return values;
+                }
+            });
+            //处理微博
+            $("#info_wb").change(function(){
+                var wb = $("#info_wb").val();
+                if(wb == ""){
+                    $("#wbtext").text("更改的微博不能为空！！！");
+                    values = false;
+                    return values;
+                }else{
+                    $("#wbtext").html("<img src='./app/view/admin/images/yes.gif' />");
+                    values = true;
+                    return values;
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id=""><a href="index.php?p=admin&c=Footinfo&a=list">页脚信息列表页</a></div>
+    <form method="post" action="index.php?p=admin&c=Footinfo&a=edit">
+        <table>
+            <tr>
+                <td>版权</td>
+                <td><input type="text" id="info_copy" name="info_copy" value="<?php echo $list['info_copy']; ?>" /> </td>
+                <td id="copytext"></td>
+            </tr>
+            <tr>
+                <td>本站网址</td>
+                <td><input type="text" id="info_url" name="info_url" value="<?php echo $list['info_url']; ?>"</td>
+                <td id="urltext"></td>
+            </tr>
+            <tr>
+                <td>备案号</td>
+                <td><input type="text" id="info_icp" name="info_icp" value="<?php echo $list['info_icp']; ?>"</td>
+                <td id="icptext"></td>
+            </tr>
+            <tr>
+                <td>备案地址</td>
+                <td><input type="text" id="info_icp_url" name="info_icp_url" value="<?php echo $list['info_icp_url']; ?>"</td>
+                <td id="icpurltext"></td>
+            </tr>
+            <tr>
+                <td>qq</td>
+                <td><input type="text" name="info_qq" id="info_qq" value="<?php echo $list['info_qq']; ?>" /></td>
+                <td id="qqtext"></td>
+            </tr>
+            <tr>
+                <td>微信</td>
+                <td><input type="text" name="info_wx" id="info_wx" value="<?php echo $list['info_wx']; ?>" /></td>
+                <td id="wxtext"></td>
+            </tr>
+            <tr>
+                <td>微博</td>
+                <td><input type="text" name="info_wb" id="info_wb" value="<?php echo $list['info_wb'] ?>" /></td>
+              <td id="wbtext"></td>
+            </tr>
+            <tr>
+                <td>微博地址</td>
+                <td><input type="text" name="info_wb_url" id="info_wb_url" value="<?php echo $list['info_wb_url'] ?>" /></td>
+                <td id="wburltext"></td>
+            </tr>
+            <tr>
+                <td>地址</td>
+                <td><input type="text" name="info_dz" id="info_dz" value="<?php echo $list['info_dz'] ?>" /></td>
+                <td id="dztext"></td>
+            </tr>
+            <tr>
+                <td>邮编</td>
+                <td><input type="text" name="info_email" id="info_email" value="<?php echo $list['info_email'] ?>" /></td>
+                <td id="emailtext"></td>
+            </tr>
+            <tr>
+                <td>电话</td>
+                <td><input type="text" name="info_phone" id="info_phone" value="<?php echo $list['info_phone'] ?>"  /></td>
+                <td id="phonetext"></td>
+            </tr>
+            <tr>
+                <td>是否显示</td>
+                <td><input type="checkbox" value="1" name="info_show" id="info_show" <?php echo $list['info_show']==1?'checked':''; ?> /></td>
+                <td id="showtext"></td>
+            </tr>
+        </table>
+<input type="hidden" id="info_id" name="info_id" value="<?php echo $list['info_id'] ?>" />
+        <input type="submit" name="info_submit" id="info_submit" />
+        <input type="reset" name="info_reset" id="info_reset" />
+    </form>
+</body>
+</html>

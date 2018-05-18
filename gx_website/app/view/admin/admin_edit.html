@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./app/view/admin/js/jquery-3.3.1.min.js"></script>
+    <script>
+      $("document").ready(function(){
+          var ids = "<?php echo $_GET['id']; ?>";
+          //处理更改页面的用户名
+          $("#ad_username").change(function(){
+              var username = $("#ad_username").val();//获取值
+              $.ajax({
+                  url:"index.php?p=admin&c=Admin&a=ajaxedit",
+                  type: "post",
+                  data:"id="+ids+"&ad_username="+username,
+                  dataType:"html",
+                  success:function(info){
+                      if(info == "更改的用户名已存在,请重新更改用户名！！！"){
+                          $("#username").text(info);
+                          values = false;
+                          return values;
+                      }else{
+                          $("#username").html(info);
+                          values = true;
+                          return values;
+                      }
+                  }
+              });
+          });
+
+          //邮箱
+          $("#ad_mail").change(function(){
+              var reg = /^\w+@\w+\.\w+[(com)||(cn)]$/;
+              var mail = $("#ad_mail").val();
+              if(mail == ""){
+                  $("#mailtext").text("邮箱不能为空！！！");
+                  return false;
+              }else if(reg.test(mail) == false){
+                  $("#mailtext").text("邮箱格式不正确，请重新输入！！！");
+                  return false;
+              }else{
+                  $("#mailtext").html("<img src='./app/view/admin/images/yes.gif' />");
+              }
+          });
+          //密码
+          var old = $("#ad_oldpass").val();
+            if(old == ""){
+                 $("#oldpasstext").text("需要更改密码时，请输入原密码，如留空时，则提交原密码！！！");
+              }
+          $("#ad_oldpass").change(function(){
+              var old = $("#ad_oldpass").val();
+                  $.ajax({
+                      url:"index.php?p=admin&c=Admin&a=ajaxpass",
+                      type:"post",
+                      data:"id="+ids+"&oldpass="+old,
+                      dataType:"html",
+                      success:function(info){
+                          if(info == "密码错误，请重新输入！！！"){
+                            $("#oldpasstext").html(info);
+                            values = false;
+                            return values;
+                          }else{
+                              $("#oldpasstext").html(info);
+                              $("#ad_passtext").text("新密码不能为空！！！");
+                          }
+                      }
+                  });
+          });
+          
+          //处理新密码
+          $("#ad_pass").change(function(){
+              var ad_passs = $("#ad_pass").val();
+              var reg = /^[a-zA-Z0-9_]{4,16}$/;
+              if(reg.test(ad_passs) == false){
+                  $("#ad_passtext").text("密码格式不正确,密码应该4-16位数字、字母或下划线");
+                  values = false;
+                  return values;
+              }else{
+                  $("#ad_passtext").html("<img src='./app/view/admin/images/yes.gif' />");
+              }
+          });
+          $("#ad_password").blur(function(){
+              var pass = $("#ad_pass").val();
+              var password = $("#ad_password").val();
+              if( pass != password ){
+                  $("#passwordtext").text("两次密码不一致，请重新输入！！！");
+                  values = false;
+                  return values;
+              }else{
+                  $("#passwordtext").html("<img src='./app/view/admin/images/yes.gif' />");
+                  values = true;
+                  return values;
+              }
+          });
+          //提交按钮的时候
+          $("#ad_submit").click(function(){
+              if(values == false ){
+                  alert("提交失败！！！");
+                  return false;
+              }
+          });
+      });
+    </script>
+    <title>编辑管理员信息</title>
+    <style type="text/css">
+	div{
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1118px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+		background-image:url(images/list.gif);
+	background-repeat:no-repeat;
+	background-position:left;
+
+	}
+	div a{
+	display:inline-block;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	div a:hover{
+	color:#FF0000;
+	font-size:18px;
+	
+	}
+	table,tr,td{
+	border:1px black solid;
+	}
+	table{
+	width:1130px;
+	height:270px;
+	rules:all;
+	}
+	table tr td{/表格左侧
+	background-color:F8F9FD;
+	border-bottom:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+	-border-top:1px solid #CCCCCC;
+	text-align:right;
+	font-size:20px;
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	width:20%;
+	padding-right:15px;
+	background-color:#F8F9FD;
+	}
+	table tr td+td{/*表中列*/
+	border-right:0px solid #CCCCCC;
+	width:50%;
+	color:red;
+	font-family:"宋体";
+	font-size:15px;
+	text-align:left;
+	}
+	#ad_username,#ad_mail,#ad_oldpass,#ad_pass,#ad_password{/*输入框*/
+	margin-left:15px;
+	width:490px;
+	height:35px;
+	}
+	form div{
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1140px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+		background-image:url(images/list.gif);
+	background-repeat:no-repeat;
+	background-position:left;
+	}
+	form div a{
+	display:inline-block;
+	-padding:4px;
+	text-decoration:none;
+	}
+	form div a:hover{
+	color:#FF0000;
+	}
+    #ad_submit{/*提交*/
+	width:110px;
+	height:50px;
+	margin-top:10px;
+	margin-left:305px;
+	background-image:url(images/body.gif);
+	font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color:blue;
+    background-color:dodgerblue;
+	}
+	#ad_submit:hover{/*提交*/
+	color:red;
+	font-weight:bolder;
+	}
+    #ad_reset{/*重置*/
+	color:#FF0000;
+    width:110px;
+	height:50px;
+	margin-left:170px;
+	background-image:url(images/body.gif);
+	font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color:red;
+    background-color:dodgerblue;
+	}
+    #ad_reset:hover{/*重置*/
+	color:white;
+	font-weight:bolder;
+    }
+    </style>
+</head>
+<body>
+    <div id=""><a href="index.php?p=admin&c=Admin&a=list">管理员列表</a></div>
+    <form method="post" action="index.php?p=admin&c=Admin&a=update&id=<?php echo $list['ad_id'] ?>">
+        <table rules="all">
+            <tr>
+                <td>用户名</td>
+                <td><input type="text" value="<?php echo $list['ad_username']; ?>" name="ad_username" id="ad_username" /></td>
+                <td id="username"></td>
+            </tr>
+            <tr>
+                <td>Email地址</td>
+                <td><input type="text" value="<?php echo $list['ad_mail']; ?>" name="ad_mail" id="ad_mail" /></td>
+                <td id="mailtext"></td>
+            </tr>
+            <tr>
+                <td>旧密码<input type="hidden" value="<?php echo $list['ad_userpass']; ?>" name="ad_userpass" /></td>
+                <td><input type="password" name="ad_oldpass" id="ad_oldpass" /></td>
+                <td id="oldpasstext"></td>
+            </tr>
+            <tr>
+                <td>新密码</td>
+                <td><input type="password" name="ad_pass" id="ad_pass" /></td>
+                <td id="ad_passtext"></td>
+            </tr>
+            <tr>
+                <td>确认密码</td>
+                <td><input type="password" name="ad_password" id="ad_password" /></td>
+                <td id="passwordtext"></td>
+            </tr>
+        </table>
+        <input type="submit" name="ad_submit" id="ad_submit" />
+        <input type="reset" name="ad_reset" id="ad_reset" />
+    </form>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>新闻列表</title> 
+    <style type="text/css">
+    #a{/*左上角文字*/
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1148px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+	background-image:url(images/list.gif);
+	background-repeat:no-repeat;
+	background-position:left;
+	}
+	div a{/*左上角文字*/
+	display:inline-block;
+	-padding:4px;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	div a:hover{/*左上角文字*/
+	color:#FF0000;
+	}
+	table{
+	width:1150px;
+	height:auto;
+	}
+	td{
+	font-size:10px;
+	}
+	.id3 li{
+		width:150px;
+		list-style: none;
+	/* 当内容超过所定义的宽度是隐藏 */
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	}
+	#id1,#id2{/*标题与序号*/
+	background-color:#D4E7F0;	
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	font-size:18px;
+	text-align:center
+	};
+	td [href]{/*修改，删除*/
+	text-decoration:none;
+	background-color:CC840E;
+	color:#00FF66;
+	}
+	#id4 a{/*修改*/
+	color:#3333FF;
+	text-decoration:none;
+	margin-right:10px;
+	}
+	#id4 a:hover{/*删除*/
+	color:#FF0000;
+	font-weight:bolder;
+	font-size:10px;
+	}
+	#id4 a+a{/*删除*/
+	color:red;
+	font-weight:bolder;
+	}
+	#id4 a+a:hover{/*删除*/
+	color:#FF0000;
+	display:inline-block;
+	background-color:#FF0000;
+	color:#FFFFFF;
+    }
+	#id3,#id4{/*标题与序号以外的单元格*/
+	background-color:#F0F9FD;
+	text-align:center;
+	}
+	</style>
+</head>
+<body>
+        <div id="a"><a href="index.php?p=admin&c=Press&a=addPage">添加分类</a></div>
+        <table border="1px" rules="all">
+            <tr id="id1">
+                <td>编号</td>
+                <td>新闻标题</td>
+                <td>来源</td>
+                <td>发布时间</td>
+                <td>更改时间</td>
+                <td>新闻内容</td>
+                <td>新闻关键字</td>
+                <td>点击次数</td>
+                <td>热门</td>
+                <td>图片</td>
+                <td>调整顺序</td>
+                <td>发布/撤回</td>
+                <td>操作</td>
+            </tr>
+            <?php $m = 1;date_default_timezone_set("Asia/Shanghai"); ?>
+            <?php foreach($list as $row): ?>
+            <tr>
+                <td id="id2" class="id3"><li><?php echo $m++; ?></li></td>
+                <td id="id3" class="id3"><li><?php echo $row['press_title']; ?></li></td>
+                <td id="id3" class="id3"><?php echo $row['press_author']; ?></td>
+                <td id="id3" class="id3"><?php echo date('Y-m-d H:i:s',$row['press_releaseTime']); ?></td>
+                <td id="id3" class="id3"><?php echo date('Y-m-d H:i:s',$row['press_updateTime']); ?></td>
+                <td id="id3" class="id3">具体内容看修改页面</td>
+                <td id="id3" class="id3"><?php echo $row['press_keyword'] ?></td>
+                <td id="id3" class="id3"><?php echo $row['press_click'] ?></td>
+                <td id="id3" class="id3"><img src="./app/view/admin/images/<?php echo $row['press_hot']==1?'yes':'no'; ?>.gif" /></td>
+                <td id="id3" class="id3"><img height="70" width="100" src="./app/uploaded/<?php echo $row['press_file']; ?>" /></td>
+               
+                <td id="id3" class="id3"><?php echo $row['press_order']; ?></td>
+                <td id="id3" class="id3"><img src="./app/view/admin/images/<?php echo $row['press_show']==1?'yes':'no'; ?>.gif" /></td>
+                <td id="id4" class="id3"><a href="index.php?p=admin&c=Press&a=sele&id=<?php echo $row['press_id']; ?>">修改</a>
+                <a onClick="if(confirm('确定删除吗？')){ this.href='index.php?p=admin&c=Press&a=del&id=<?php echo $row['press_id']; ?>';}">删除</a></td>
+            </tr>
+			<?php endForeach; ?>
+			<tr><td colspan="13"><a href="index.php?p=admin&c=Press&a=list&page=1">首页</a> <a href="index.php?p=admin&c=Press&a=list&page=<?php echo $page==$last_page?$last_page:$page+1; ?>">下一页</a><a href="index.php?p=admin&c=Press&a=list&page=<?php echo $page==1?'1':$page-1; ?>">上一页</a><a href="index.php?p=admin&c=Press&a=list&page=<?php echo $last_page; ?>">末页</a></td></tr>
+        </table>
+</body>
+</html>

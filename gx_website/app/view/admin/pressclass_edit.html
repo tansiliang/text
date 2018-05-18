@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>编辑页面</title>
+    <style type="text/css">
+	table,tr,td{
+	-border:1px black solid;
+	}
+	table{
+	width:1152px;
+	height:270px;
+	rules:all;
+	}
+	table tr td{/*表格左侧*/
+	background-color:F8F9FD;
+	border-bottom:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+	-border-top:1px solid #CCCCCC;
+	text-align:right;
+	font-size:20px;
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	width:20%;
+	padding-right:15px;
+	background-color:#F8F9FD;
+	}
+	table tr td+td{/*表中间*/
+	border-right:0px solid #CCCCCC;
+	width:50%;
+	color:red;
+	font-family:"宋体";
+	font-size:15px;
+	text-align:left;
+	}
+	#class_name,#class_order,#naviga_order{/*输入框*/
+	margin-left:15px;
+	width:490px;
+	height:35px;
+	}
+	#class_parent{
+	margin-left:15px;
+	}
+	#link_show{/*显示*/
+	margin-left:20px;
+	}
+	div{
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1140px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+	}
+	div a{
+	display:inline-block;
+	-padding:4px;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	div a:hover{
+	color:#FF0000;
+	font-size:15px;
+	}
+    #class_submit{/*提交*/
+	color:#FF0000;
+	width:110px;
+	height:50px;
+	margin-top:10px;
+	margin-left:305px;
+	background-image:url(images/body.gif);
+	}
+    #class_reset{/*重置*/
+	color:#FF0000;
+    width:110px;
+	height:50px;
+	margin-left:170px;
+	background-image:url(images/body.gif);
+	}
+    </style>
+</head>
+<body>
+        <div id=""><a href="index.php?p=admin&c=Pressclass&a=list">新闻分类列表</a></div>
+        <form method="post" action="index.php?p=admin&c=Pressclass&a=edit">
+            <table>
+                <tr>
+                    <td>分类名称</td>
+                    <td><input type="text" value="<?php echo $list['class_name']; ?>" name="class_name" id="class_name" /></td>
+                    <td id="nametext"></td>
+                </tr>
+                
+                <tr>
+                    <td>上一级类名</td>
+                    <td><select id="class_parent" name="class_parent">
+                            <option value="0" <?php echo $list['class_parent']==0?'selected':''; ?>>顶级分类</option>
+                            <?php foreach($lists as $row): ?>
+                                <option value="<?php echo $row['class_id']; ?>" <?php echo $row['class_id']==$list['class_parent']?'selected':'' ?>> <?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;',$row['dree']).$row['class_name']; ?></option>
+                            <?php endForeach; ?>
+                        </select></td>
+                    <td id="parenttext"></td>
+                </tr>
+                    <tr>
+                        <td>调整顺序</td>
+                        <td><input type="text" name="class_order" id="class_order" value="<?php echo $list['class_order']; ?>" /></td>
+                        <td id="ordertext"></td>
+                    </tr>
+            </table>
+            <input type="hidden" name="class_id" value="<?php echo $list['class_id'] ?>" />
+            <input type="submit" name="class_submit" id="class_submit" />
+            <input type="reset" name="class_reset" id="class_reset" />
+        </form>
+</body>
+</html>

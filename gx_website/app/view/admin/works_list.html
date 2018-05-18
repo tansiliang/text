@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文章列表</title>
+    <style type="text/css">
+	-tr{
+	width:1160px
+	}
+    div{/*左上角文字*/
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1148px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+	background-image:url(images/list.gif);
+	background-repeat:no-repeat;
+	background-position:left;
+	}
+	div a{/*左上角文字*/
+	display:inline-block;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	div a:hover{/*左上角文字*/
+	color:#FF0000;
+	}
+	table{/*表格*/
+	width:1160px;
+	height:auto;
+	}
+	td{
+	font-size:10px;
+	
+	}
+	.id3 li{
+		width:160px;
+		list-style: none;
+	/* 当内容超过所定义的宽度是隐藏 */
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	}
+	#id1,#id2{/*序号和标题以外的单元*/
+	background-color:#D4E7F0;	
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	font-size:18px;
+	text-align:center;
+	}
+	#id4 [href]{/*修改，删除*/
+	text-decoration:none;
+	background-color:CC840E;
+	color:#00FF66;
+	}
+	#id4 [href]:hover{/*修改，删除*/
+	color:#FF0000;
+	font-weight:bolder;
+	font-size:10px;
+	}
+	td [onClick]:hover{/*删除*/
+	color:#FF0000;
+	display:inline-block;
+	background-color:#FF0000;
+	color:#FFFFFF;
+    }
+	.id3,#id4{/*序号和标题以外的单元格*/
+	background-color:#F0F9FD;
+	text-align:center;
+	}
+	</style>
+</head>
+<body>
+    <div id=""><a href="index.php?p=admin&c=Works&a=addPage">添加文章</a></div>
+    <table border="1px" rules="all">
+        <tr id="id1">
+            <td>编号</td>
+            <td>文章类别</td>
+            <td>发布时间</td>
+            <td>更改时间</td>
+            <td>文章内容</td>
+            <td>热门</td>
+            <td>图片</td>
+            <td>调整顺序</td>
+            <td>发布/撤回</td>
+            <td>操作</td>
+        </tr>
+        <?php $m = 1;date_default_timezone_set("Asia/Shanghai"); ?>
+        <?php foreach($list as $row): ?>
+        <tr>
+            <td id="id2" class="id3"><?php echo $m++; ?></td>
+            <td class="id3"><?php echo $row['works_title']; ?></td>
+            <td class="id3"><?php echo date('Y-m-d H:i:s',$row['works_releaseTime']); ?></td>
+            <td class="id3"><?php echo date('Y-m-d H:i:s',$row['works_updateTime']); ?></td>
+            <td class="id3"><li>具体文章内容看修改页面</li></td>
+            <td class="id3"><img src="./app/view/admin/images/<?php echo $row['works_hot']==1?'yes':'no'; ?>.gif" /></td>
+            <td class="id3"><img height="70" width="100" src="./app/uploaded/<?php echo $row['works_file']; ?>" /></td>
+           
+            <td class="id3"><?php echo $row['works_order']; ?></td>
+            <td class="id3"><img src="./app/view/admin/images/<?php echo $row['works_show']==1?'yes':'no'; ?>.gif" /></td>
+            <td id="id4" class="id3"><a href="index.php?p=admin&c=Works&a=sele&id=<?php echo $row['works_id']; ?>">修改</a>
+            <a onClick="if(confirm('确定删除吗？')){ this.href='index.php?p=admin&c=Works&a=del&id=<?php echo $row['works_id']; ?>';}">删除</a></td>
+        </tr>
+		<?php endForeach; ?>
+		<tr><td colspan="10"><a href="index.php?p=admin&c=Works&a=list&page=1">首页</a> <a href="index.php?p=admin&c=Works&a=list&page=<?php echo $page==$last_page?$last_page:$page+1; ?>">下一页</a><a href="index.php?p=admin&c=Works&a=list&page=<?php echo $page==1?'1':$page-1; ?>">上一页</a><a href="index.php?p=admin&c=Works&a=list&page=<?php echo $last_page; ?>">末页</a></td></tr>
+    </table>
+</body>
+</html>

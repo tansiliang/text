@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<style type="text/css">
+	tr{
+	width:1129px
+	}
+    div{/*左上字*/
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1153px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+	background-image:url(images/list.gif);
+	background-repeat:no-repeat;
+	background-position:left;
+	}
+	div a{
+	display:inline-block;
+	-padding:4px;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	div a:hover{
+	color:#FF0000;
+	}
+	table{
+	font-size:9px;
+	width:1165px;
+	height:auto;
+	}
+	td{
+	padding:12px;
+	text-align:center;
+	}
+	#id1,#id2{
+	background-color:#D4E7F0;	
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	font-size:12px;
+	}
+	td [href]{/*日志，编辑*/
+	text-decoration:none;
+	background-color:CC840E;
+	color:#00FF66;
+	}
+	td [href]+[href]{
+	color:#3333FF;
+	}
+	td [href]:hover{
+	color:#FF0000;
+	font-weight:bolder;
+	font-size:12px;
+	}
+	td [onClick]{/*删除*/
+	color:red;
+	font-weight:bolder;
+	}
+	td [onClick]:hover{
+	color:#FF0000;
+	display:inline-block;
+	background-color:#FF0000;
+	color:#FFFFFF;
+    }
+	#id3,#id4{
+	background-color:#F0F9FD;
+	}
+	#id4{
+	width:80px;
+	}
+	#id4 a{
+	margin-right:5px;
+	}
+    #id1 td+td+td+td+td+td+td+td+td+td+td{
+	width:60px;
+	}
+	#id5 a{
+	margin-right:70px;
+	}
+	</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>页脚信息列表</title>
+</head>
+<body>
+    <div id=""><a href="index.php?p=admin&c=Footinfo&a=addPage">添加页脚信息</a></div>
+    <table border="1" rules="all">
+    <tr id="id1">
+        <td>版权所有</td>
+        <td>网址</td>
+        <td>备案号</td>
+        <td>QQ</td>
+        <td>微信</td>
+        <td>新浪微博</td>
+        <td>微博地址</td>
+        <td>地址</td>
+        <td>邮编</td>
+        <td>电话</td>
+        <td>是否显示</td>
+        <td>操作</td>
+    </tr>
+    <?php foreach($list as $row): ?>
+    <tr>
+        <td id="id2"><?php echo $row['info_copy']; ?></td>
+        <td id="id3"><?php echo $row['info_url']; ?></td>
+        <td id="id3"><?php echo $row['info_icp']; ?></td>
+        <td id="id3"><?php echo $row['info_qq']; ?></td>
+        <td id="id3"><?php echo $row['info_wx']; ?></td>
+        <td id="id3"><?php echo $row['info_wb']; ?></td>
+        <td id="id3"><?php echo $row['info_wb_url']; ?></td>
+        <td id="id3"><?php echo $row['info_dz']; ?></td>
+        <td id="id3"><?php echo $row['info_email']; ?></td>
+        <td id="id3"><?php echo $row['info_phone']; ?></td>
+        <td id="id3"><img src="./app/view/admin/images/<?php echo $row['info_show']==1?'yes':'no'; ?>.gif" /></td>
+        <td id="id4"><a href="index.php?p=admin&c=Footinfo&a=sele&id=<?php echo $row['info_id'];?>">编辑</a>
+        <a onClick="if(confirm('确定删除吗？')){ this.href='index.php?p=admin&c=Footinfo&a=del&id=<?php echo $row['info_id']; ?>';}">删除</a></td>
+    </tr>
+    <?php endForeach; ?>
+    </table>
+</body>
+</html>

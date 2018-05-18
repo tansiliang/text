@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>添加链接</title>
+    <script src="./app/view/admin/js/jquery-3.3.1.min.js"></script>
+    <script>
+        $("document").ready(function(){
+            var values = true;
+            var name = $("#link_name").val();
+            var urldz = $("#link_url").val();
+            if(name == ''){
+                $("#nametext").text("链接名称不能为空！！！");
+            }
+            if(urldz == ""){
+                $("#urltext").text("URL地址不能为空！");
+            }
+            //处理链接名
+            $("#link_name").change(function(){
+                var name = $("#link_name").val();
+                var urlzd = $("#link_url").val();
+                $.ajax({
+                    url:"index.php?p=admin&c=Friend&a=ajaxAdd",
+                    data:"link_name="+name,
+                    dataType:"html",
+                    type:"post",
+                    success:function(info){
+                        if(info == "链接名称已存在！"){
+                            $("#nametext").text(info);
+                            values = false;
+                            return values;
+                        }else{
+                        $("#nametext").html(info);
+                        values = true;
+                        return values;
+                        }
+                    }
+                });
+            });
+            //处理路径
+            $("#link_url").change(function(){
+                var urlzd = $("#link_url").val();
+                var reg=/^(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?$/;
+                if(reg.test(urlzd) == false){
+                    $("urltext").text("URL格式错误，格式为：http://www.baidu.com!!!");
+                }else{
+                $.ajax({
+                    url:"index.php?p=admin&c=Friend&a=ajaxAddurl",
+                    data:"link_url="+urlzd,
+                    dataType:"html",
+                    type:"post",
+                    success:function(info){
+                        if(info == "URL路径已存在！！！"){
+                            $("#urltext").text(info);
+                            values = false;
+                            return values;
+                        }else{
+                        $("#urltext").html(info);
+                        values = true;
+                        return values;
+                        }
+                    }
+                });}
+                
+            });
+            //处理显示顺序
+            var order = $("#link_order").val();
+            if(order == ""){
+                $("#ordertext").text("不能为空！！！");
+            }
+            $("#link_order").blur(function(){
+                var order = $("#link_order").val();
+                if(isNaN(order)){
+                    $("#ordertext").text("显示顺序的值必须为数值，请重新输入！！！");
+                    values = false;
+                    return values;
+                }else{
+                    $("#ordertext").html("<img src='./app/view/admin/images/yes.gif' />");
+                    var values = true;
+                    return values;
+                }
+            });
+            //处理提交按钮
+            $("#link_submit").click(function(){
+                var name = $("#link_name").val();
+                var urldz = $("#link_url").val();
+                if(values == false || name == "" || urldz == ""){
+                    alert("提交失败！！！");
+                    return false;
+                }
+            });
+        });
+    </script>
+	<style type="text/css">
+	table,tr,td{
+	-border:1px black solid;
+	}
+	table{
+	width:1155px;
+	height:270px;
+	rules:all;
+	}
+	table tr td{/表格左侧
+	background-color:F8F9FD;
+	border-bottom:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+	-border-top:1px solid #CCCCCC;
+	text-align:right;
+	font-size:20px;
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	width:25%;
+	padding-right:15px;
+	background-color:#F8F9FD;
+	}
+	table tr td+td{/*中间*/
+	border-right:0px solid #CCCCCC;
+	width:50%;
+	width:37%;
+	color:red;
+	font-family:"宋体";
+	font-size:15px;
+	text-align:left;
+	}
+	#link_name,#link_url,#link_order{/*输入框*/
+	margin-left:15px;
+	width:490px;
+	height:35px;
+	}
+	#link_show{/*显示*/
+	margin-left:20px;
+	}
+	form div{
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1140px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+	}
+	form div a{
+	display:inline-block;
+	-padding:4px;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	form div a:hover{
+	color:#FF0000;
+	font-size:15px;
+	}
+    #link_submit{/*提交*/
+	color:#FF0000;
+	width:110px;
+	height:50px;
+	margin-top:10px;
+	margin-left:305px;
+	background-image:url(images/body.gif);
+	}
+    #link_reset{/*重置*/
+	color:#FF0000;
+    width:110px;
+	height:50px;
+	margin-left:200px;
+	background-image:url(images/body.gif);
+	}
+    </style>
+</head>
+<body>
+<form method="post" action="index.php?p=admin&c=Friend&a=add">
+        <div><a href="index.php?p=admin&c=Friend&a=list">链接列表</a></div>
+    <table>
+        <tr>
+            <td>链接名称</td>
+            <td><input type="text" name="link_name" id="link_name" /></td>
+            <td id="nametext"></td>
+        </tr>
+        <tr>
+            <td>URL地址</td>
+            <td><input type="text" name="link_url" id="link_url" /></td>
+            <td id="urltext"></td>
+        </tr>
+        <tr>
+            <td>是否显示</td>
+            <td><input type="checkbox" value="1" name="link_show" id="link_show" />显示</td>
+            <td>显示请勾选</td>
+        </tr>
+        <tr>
+            <td>调整顺序</td>
+            <td><input type="text" name="show_order" id="link_order" /></td>
+            <td id="ordertext"></td>
+        </tr>
+    </table>
+    <input type="submit" id="link_submit" name="link_submit" />
+    <input type="reset" id="link_reset" name="link_reset" />
+</form>
+</body>
+</html>

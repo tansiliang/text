@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!-- 显示标题图片 -->
+  <?php $web = $webset[0]; ?><!-- 网站设置信息 -->
+  <link rel="shortcut icon" href="./app/uploaded/<?php echo $web['web_show']==1?$web['web_title_ico']:''; ?>" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="<?php echo $web['web_show']==1?$web['web_seo']:''; ?>" />
+<!-- 关键字，描述信息 -->
+<meta name="description" content="<?php echo $web['web_show']==1?$web['web_bewrite']:''; ?>">
+
+<title><?php echo $web['web_show']==1?$web['web_title']:'广东高新技术技工学校首页'; ?></title>
+<link href="./app/view/font/styles/gdgxsy.css" rel="stylesheet"  type="text/css" />
+<link href="./app/view/font/js/gdgxsy.js."/>
+</head>
+<script>
+
+    window.onload = function(){
+        var images = document.getElementsByTagName('img');
+        var pos = 0;
+        var len = images.length;
+         
+        setInterval(function(){
+            images[pos].style.display = 'none';
+            pos = ++pos == len ? 0 : pos;
+            images[pos].style.display = 'inline';
+        },1000);
+    };
+	
+</script>
+<body>
+<div class="d0">
+   <div class="logo">
+  </div>
+<div id="logos">
+  </div>
+
+<div class="g1">
+    
+  <ul>
+      <li><a href="#">设为首页</a></li>
+      <li><a href="#">添加收藏</a></li>
+    </ul>
+  </div>  
+<div class="g2">
+    <h1>厚强进创</h1>
+    <h1>德能取新</h1>
+  </div>
+  <!-- <?php $top = $navigatop[0]; ?>头部导航 -->
+    <div class="nav">
+    <ul>
+        <li><a href="index.php?p=font&c=Index&a=list">网站首页</a></li>
+      <?php $m = 1;
+      foreach($navigatop as $top):
+      if($top['naviga_bar']== 1 and $top['dree'] == 0 and $m++ < 10){ ?>
+      <li><a href="<?php echo $top["naviga_url"]; ?>&id=<?php echo $top['naviga_id'] ?>&ids=<?php echo $top['naviga_id'] ?>"><?php echo $top["naviga_name"] ?></a></li>
+      <?php }
+      endForeach; ?>
+    </ul>
+ </div>
+<div class="tab">
+ <img src="./app/view/font/images/index/1.jpg" width="1020" height="475" style="display: block;"  /> 
+ <img src="./app/view/font/images/index/2.jpg" width="1020" height="475" style="display: none;"/> 
+ <img src="./app/view/font/images/index/3.jpg" width="1020" height="475" style="display: none;"/>
+ <img src="./app/view/font/images/index/4.jpg" width="1020" height="475" style="display: none;"/>
+ <img src="./app/view/font/images/index/5.jpg" width="1020" height="475" style="display: none;"/>
+</div>
+<div class="d4">
+    <div class="n1">
+      <h2>高新新闻<span style="float:right;font-size:14px;padding:10px 10px 0 0;"><a style="color:red;text-decoration:none;" href="index.php?p=font&c=Index&a=getlist">更多>></a></span></h2>
+      <ul>
+        <?php $m=1;foreach($press as $pre):
+        if($m++ < 8 && $pre['press_show']==1){ ?>
+        <li><a href="index.php?p=font&c=Index&a=workslist&id=<?php echo $pre['press_id']; ?>"><?php echo $pre['press_title']; ?></a></li>
+        <?php }endForeach; ?>
+      </ul>
+    </div>
+    <div class="n2"> 
+    
+    </div>
+    <div class="n3">
+      <video id="video_source" controls="controls" width="500px" height="300px" autoplay="autoplay">
+        <source src="./app/view/font/images/gx.mp4" type="video/mp4" />
+        你的视频无法播放 
+    </video>  
+  </div>
+    <div class="n4">
+    <h2>通知公告</h2>
+      <ul>
+          <?php $m=1;foreach($press as $pre):
+          if( $pre['press_show']==1 && $pre['press_categoryid'] == 6){ ?>
+          <li><a href="index.php?p=font&c=Index&a=workslist&id=<?php echo $pre['press_id']; ?>"><?php echo $pre['press_title']; ?></a></li>
+          <?php }endForeach; ?>
+        </ul>
+    </div>
+</div>
+<div class="d5">
+  <?php $m=1;
+  foreach($navigafoot as $foot):
+  if($foot['foot_show'] == 1 && $m++ < 7){ ?>
+<a href="<?php echo $foot['foot_url']; ?>"><?php echo $foot['foot_name']; ?></a>
+<?php }endForeach; ?>
+</div>
+<div class="d6">
+    <p>友情链接：<?php $m1 = 1;
+    foreach($friendlink as $link):
+    if($m1++ < 3 && $link['link_show'] == 1){ ?>
+   <a href="<?php echo $link['link_url']; ?>"><?php echo $link['link_name']; ?></a>
+   <?php }
+   endForeach;?>
+   </p>
+  <?php 
+  $m = 1;
+  foreach($footinfo as $info):
+  if($m++ < 2 && $info['info_show'] == 1){ ?>
+  
+  <p>版权所有： <?php echo $info['info_copy']; ?>  <?php echo $info['info_url']; ?>  备案号：<a href="<?php echo $info['info_icp_url']; ?>"><?php echo $info['info_icp']; ?></a> </p>
+  <p>官方QQ：<?php echo $info['info_qq']; ?>  官方微信：<?php echo $info['info_wx']; ?>  新浪官方微博：<a href="<?php echo $info['info_wb_url'] ?>"><?php echo $info['info_wb']; ?></a> </p>
+  <p>地址：<?php echo $info['info_dz']; ?> </p>
+  <p>邮编：<?php echo $info['info_email']; ?>
+    电话：<?php echo $info['info_phone']; ?> </p>
+    <?php }
+    endForeach;?>
+    <!-- <?php var_dump($info);?> -->
+</div> 
+</body>
+</html>

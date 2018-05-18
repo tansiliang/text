@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<style type="text/css">
+	table,tr,td{
+	-border:1px black solid;
+	}
+	table{
+	width:1130px;
+	height:270px;
+	rules:all;
+	}
+	table tr td{/表格左侧
+	background-color:F8F9FD;
+	border-bottom:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+	-border-top:1px solid #CCCCCC;
+	text-align:right;
+	font-size:20px;
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	width:20%;
+	padding-right:15px;
+	background-color:#F8F9FD;
+	}
+	table tr td+td{/*中间*/
+	border-right:0px solid #CCCCCC;
+	width:50%;
+	color:red;
+	font-family:"宋体";
+	font-size:15px;
+	text-align:left;
+	}
+	#naviga_name,#naviga_url,#naviga_order{/*输入框*/
+	margin-left:15px;
+	width:490px;
+	height:35px;
+	}
+	#naviga_parent,#naviga_bar{
+	margin-left:15px;
+	}
+	#link_show{/*显示*/
+	margin-left:20px;
+	}
+	div{
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1118px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+	}
+	div a{
+	display:inline-block;
+	-padding:4px;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	div a:hover{
+	color:#FF0000;
+	font-size:15px;
+	}
+    #naviga_submit{/*提交*/
+	color:#FF0000;
+	width:110px;
+	height:50px;
+	margin-top:10px;
+	margin-left:305px;
+	background-image:url(images/body.gif);
+	}
+    #naviga_reset{/*重置*/
+	color:#FF0000;
+    width:110px;
+	height:50px;
+	margin-left:170px;
+	background-image:url(images/body.gif);
+	}
+    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>编辑页面</title>
+    <script src="./app/view/admin/js/jquery-3.3.1.min.js"></script>
+    <script >
+    $("document").ready(function(){
+        var values = true;
+        //处理导航名
+        $("#naviga_name").change(function(){
+        var ids = "<?php echo $_GET['id']; ?>";
+        var name = $("#naviga_name").val();
+        if(name == ""){
+            $("#nametext").text("更改的导航名不能为空！！！");
+        }else{
+        $.ajax({
+            url:"index.php?p=admin&c=Navigatop&a=editname",
+            data:"naviga_name="+name+"&id="+ids,
+            type:"post",
+            dataType:"html",
+            success:function(info){
+                if(info == "导航名已存在！！！"){
+                    $("#nametext").text(info);
+                    var values = false;
+                    return values;
+                }else{
+                    $("#nametext").html(info);
+                    var values = true;
+                    return values;
+                }
+            }
+        });
+    }
+    });
+
+    
+     //处理显示顺序
+     var order = $("#naviga_order").val();
+        if(order == ""){
+            $("#ordertext").text("不能为空！！！");
+        }
+        $("#naviga_order").blur(function(){
+            var order = $("#naviga_order").val();
+            if(isNaN(order)){
+                $("#ordertext").text("显示顺序的值必须为数值，请重新输入！！！");
+                values = false;
+                return values;
+            }else{
+                $("#ordertext").html("<img src='./app/view/admin/images/yes.gif' />");
+                var values = true;
+                return values;
+            }
+        });
+        //处理提交按钮
+        $("#naviga_submit").click(function(){
+            var name = $("#naviga_name").val();
+            var urldz = $("#naviga_url").val();
+            if(values == false || name == "" || urldz == ""){
+                alert("提交失败！！！");
+                return false;
+            }
+        });
+    });
+</script>
+</head>
+<body>
+    <div id=""><a href="index.php?p=admin&c=Navigatop&a=list">导航列表</a></div>
+    <form method="post" action="index.php?p=admin&c=Navigatop&a=edit">
+        <table>
+            <tr>
+                <td>导航名</td>
+                <td><input type="text" value="<?php echo $list['naviga_name']; ?>" name="naviga_name" id="naviga_name" /></td>
+                <td id="nametext"></td>
+            </tr>
+            <tr>
+                <td>导航地址</td>
+                <td><input type="text" value="<?php echo $list['naviga_url']; ?>" name="naviga_url" id="naviga_url" /></td>
+                <td id="urltext"></td>
+            </tr>
+            <tr>
+                <td>上一级类名</td>
+                <td><select id="naviga_parent" name="naviga_parent">
+                        <option value="0" <?php echo $list['naviga_parent']==0?'selected':''; ?>>顶级分类</option>
+                        <?php foreach($lists as $row): ?>
+                            <option value="<?php echo $row['naviga_id']; ?>" <?php echo $row['naviga_id']==$list['naviga_parent']?'selected':'' ?>> <?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;',$row['dree']).$row['naviga_name']; ?></option>
+                        <?php endForeach; ?>
+                    </select></td>
+                <td id="parenttext"></td>
+            </tr>
+            <tr>
+                    <td>是否在导航上显示</td>
+                    <td><input type="radio" name="naviga_bar" id="naviga_bar" <?php echo $list['naviga_bar']==1?'checked':''; ?> value="1" />显示<input type="radio" name="naviga_bar" id="naviga_bar" <?php echo $list['naviga_bar']==0?'checked':''; ?> value="0" />不显示</td>
+                    <td id="bartext"></td>
+                </tr>
+                <tr>
+                    <td>调整顺序</td>
+                    <td><input type="text" name="naviga_order" id="naviga_order" value="<?php echo $list['naviga_order']; ?>" /></td>
+                    <td id="ordertext"></td>
+                </tr>
+        </table>
+        <input type="hidden" name="naviga_id" value="<?php echo $list['naviga_id'] ?>" />
+        <input type="submit" name="naviga_submit" id="naviga_submit" />
+        <input type="reset" name="naviga_reset" id="naviga_reset" />
+    </form>
+</body>
+</html>

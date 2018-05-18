@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<style type="text/css">
+	tr{
+	width:1129px
+	}
+    div{/*左上角文字*/
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1118px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+	background-image:url(images/list.gif);
+	background-repeat:no-repeat;
+	background-position:left;
+	}
+	div a{/*左上角文字*/
+	display:inline-block;
+	-padding:4px;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	div a:hover{/*左上角文字*/
+	color:#FF0000;
+	}
+	table{
+	width:1130px;
+	height:auto;
+	}
+	td{
+	padding:12px;
+	}
+	#id1,#id2{/*标题与序号*/
+	background-color:#D4E7F0;	
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	font-size:18px;
+	text-align:center
+	};
+	td [href]{/*日志，编辑*/
+	text-decoration:none;
+	background-color:CC840E;
+	color:#00FF66;
+	}
+	#id4 a{/*编辑*/
+	color:#3333FF;
+	text-decoration:none;
+	margin-right:10px;
+	}
+	#id4 a:hover{/*编辑*/
+	color:#FF0000;
+	font-weight:bolder;
+	font-size:15px;
+	}
+	#id4 a+a{/*删除*/
+	color:red;
+	font-weight:bolder;
+	}
+	#id4 a+a:hover{/*删除*/
+	color:#FF0000;
+	display:inline-block;
+	background-color:#FF0000;
+	color:#FFFFFF;
+    }
+	#id3,#id4{/*标题与序号以外的单元格*/
+	background-color:#F0F9FD;
+	}
+	</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>导航页面</title>
+</head>
+<body>
+    <div id=""><a href="index.php?p=admin&c=Navigatop&a=addPage">添加导航</a></div>
+    <table border="1" rules="all">
+        <tr id="id1">
+            <td>编号</td>
+            <td>导航名</td>
+            <td>导航地址</td>
+            <td>导航栏</td>
+            <td>调整顺序</td>
+            <td>操作</td>
+        </tr>
+        <?php $m = 1;
+        foreach($list as $row): ?>
+        <tr>
+            <td id="id2"><?php echo $m++; ?></td>
+            <td id="id3"><?php echo str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;',$row['dree']).$row['naviga_name'] ?></td>
+            <td id="id3"><?php echo $row['naviga_url'] ?></td>
+            <td id="id3"><img src="./app/view/admin/images/<?php echo $row['naviga_bar']==1?'yes':'no'; ?>.gif" /></td>
+            <td id="id3"><?php echo $row['naviga_order'] ?></td>
+            <td id="id4"><a href="index.php?p=admin&c=Navigatop&a=sele&id=<?php echo $row['naviga_id'] ?>">编辑</a><a onClick="if(confirm('确定删除吗？')){ this.href='index.php?p=admin&c=Navigatop&a=del&id=<?php echo $row['naviga_id']; ?>';}">删除</a></td>
+        </tr>
+        <?php endForeach; ?>
+        
+    </table>
+</body>
+</html>

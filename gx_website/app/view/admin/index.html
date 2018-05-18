@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="lin">
+<meta charset="utf-8" />
+<head>
+</head>
+<frameset rows="100,*" cols="*" frameborder="no" border="0" framespacing="0">
+        <frame src="index.php?p=admin&c=Index&a=header&id=<?php echo $_GET['id']; ?>" scrolling="no" noresize="noresize"/>
+        <frameset cols="187,*," cols="*" frameboder="no" border="0" framespacing="0">
+                <frame src="index.php?p=admin&c=Index&a=sidebar" />
+            <frame src="index.php?p=admin&c=Index&a=content" scrolling="yes" noresize="noresize" name="contents" />
+        </frameset>
+<body>
+    
+</body>
+</html>

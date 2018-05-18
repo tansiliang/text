@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>编辑网站设置</title>
+    <script src="./app/view/admin/js/jquery-3.3.1.min.js"></script>
+    <script>
+        $("document").ready(function(){
+            var values = true;
+            //处理网站设置名
+            $("#web_name").change(function(){
+            var ids = "<?php echo $_GET['id']; ?>";
+            var name = $("#web_name").val();
+            if(name == ""){
+                $("#nametext").text("更改的网站设置名不能为空！！！");
+            }else{
+            $.ajax({
+                url:"index.php?p=admin&c=Webset&a=editname",
+                data:"web_name="+name+"&id="+ids,
+                type:"post",
+                dataType:"html",
+                success:function(info){
+                    if(info == "网站名已存在！！！"){
+                        $("#nametext").text(info);
+                        var values = false;
+                        return values;
+                    }else{
+                        $("#nametext").html(info);
+                        var values = true;
+                        return values;
+                    }
+                }
+            });
+        }
+        });
+
+        //
+        $("#web_title").change(function(){
+            var ids = "<?php echo $_GET['id']; ?>";
+            var url = $("#web_title").val();
+            if(url == ""){
+                $("#titlename").text("更改的标题不能为空！！！");
+            }else{
+            $.ajax({
+                url:"index.php?p=admin&c=Webset&a=ajaxedittitle",
+                data:"web_title="+url+"&id="+ids,
+                type:"post",
+                dataType:"html",
+                success:function(info){
+                    if(info == "标题已存在！！！"){
+                        $("#titlename").text(info);
+                        var values = false;
+                        return values;
+                    }else{
+                        $("#titlename").html(info);
+                        var values = true;
+                        return values;
+                    }
+                }
+            });
+        }
+        });
+        //处理SEO关键字
+        $("#web_seo").change(function(){
+            var seo = $("#web_seo").val();
+            if(seo == ""){
+                $("#seotext").text("更改的关键字不能为空！！！");
+                varlues = false;
+                return values;
+            }else{
+                $("#seotext").html("<img src='./app/view/admin/images/yes.gif' />");
+                values = true;
+                return values;
+            }
+        });
+         
+         //处理网站描述
+         $("#web_bewrite").change(function(){
+            var bewrite = $("#web_bewrite").val();
+            if(bewrite == ""){
+                $("#bewrite").text("更改的描述不能为空！！！");
+                varlues = false;
+                return values;
+            }else{
+                $("#bewrite").html("<img src='./app/view/admin/images/yes.gif' />");
+                values = true;
+                return values;
+            }
+        });
+         //处理提交按钮
+         $("#web_submit").click(function(){
+            var name = $("#web_name").val();
+            var urldz = $("#web_title").val();
+            if(values == false || name == "" || urldz == ""){
+                alert("提交失败！！！");
+                return false;
+            }
+        });
+    });
+</script>
+<style type="text/css">
+	td{
+	-border:1px black solid;
+	padding:10px;
+	}
+	table{
+	width:1100px;
+	height:270px;
+	rules:all;
+	}
+	table tr td{/表格左侧
+	background-color:F8F9FD;
+	border-bottom:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+	-border-top:1px solid #CCCCCC;
+	text-align:right;
+	font-size:20px;
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	width:25%;
+	padding-right:15px;
+	background-color:#F8F9FD;
+	}
+	table tr td+td{/*中间*/
+	border-right:0px solid #CCCCCC;
+	width:37%;
+	color:red;
+	font-family:"宋体";
+	font-size:15px;
+	text-align:left;
+	}
+	#web_name,#web_title,#id3 input,#id4 input,#id5 textarea{/*输入框*/
+	margin-left:15px;
+	width:370px;
+	height:35px;
+	}
+	#link_show{/*显示*/
+	margin-left:20px;
+	}
+	#id5 textarea{
+	width:368px;
+	height:130px;
+	}
+	#id6 input{
+	margin-left:16px;
+	}
+	div{
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1088px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+	}
+	div a{
+	display:inline-block;
+	-padding:4px;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	div a:hover{
+	color:#FF0000;
+	font-size:15px;
+	}
+    #id7{/*提交*/
+	color:#FF0000;
+	width:110px;
+	height:50px;
+	margin-top:10px;
+	margin-left:300px;
+	background-image:url(images/body.gif);
+	}
+    #id8{/*重置*/
+	color:#FF0000;
+    width:110px;
+	height:50px;
+	margin-left:130px;
+	background-image:url(images/body.gif);
+	}
+    </style>
+</head>
+<body>
+    <div><a href="index.php?p=admin&c=Webset&a=list">网站设置列表</a></div>
+    <form method="post" action="index.php?p=admin&c=Webset&a=edit" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>网站名称</td>
+            <td><input type="text" id="web_name" name="web_name" value="<?php echo $list['web_name']; ?>" /></td>
+            <td id="nametext"></td>
+        </tr>
+        <tr>
+            <td>网站标题</td>
+            <td><input type="text" name="web_title" id="web_title" value="<?php echo $list['web_title']; ?>" /></td>
+            <td id="titlename"></td>
+        </tr>
+        <tr>
+            <td>标题图标</td>
+            <td id="id3"><input type="file" name="web_title_ico" value="" /></td>
+            <td><img src="./app/uploaded/<?php echo $list['web_title_ico']; ?>" width="20" height="20" alt="图片出错！"/><input type="hidden" value="<?php echo $list['web_title_ico']; ?>" name="web_ico" /></td>
+            
+        </tr>
+        <tr>
+            <td>SEO关键字</td>
+            <td id="id4"><input type="text" name="web_seo" id="web_seo" value="<?php echo $list['web_seo']; ?>" /></td>
+            <td id="seotext"></td>
+        </tr>
+        <tr>
+            <td>网站描述</td>
+            <td id="id5"><textarea name="web_bewrite" id="web_bewrite" cols="50" rows="10"><?php echo $list['web_bewrite']; ?></textarea></td>
+            <td id="bewrite"></td>
+        </tr>
+        <tr>
+            <td>是否显示</td>
+            <td id="id6"><input type="checkbox" name="web_show" value="1" <?php echo $list['web_show']==1?'checked':''; ?> />显示</td>
+            <td></td>
+        </tr>
+    </table>
+    <input type="hidden" name="web_id" value="<?php echo $_GET['id'];?>" />
+    <input type="submit" name="edit_submit" id="id7"/>
+    <input type="reset" name="edit_reset" id="id8" />
+    </form>
+</body>
+</html>

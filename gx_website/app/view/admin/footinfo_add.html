@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<style type="text/css">
+	table,tr,td{
+	-border:1px black solid;
+	}
+	table{
+	width:1147px;
+	height:270px;
+	rules:all;
+	}
+	table tr td{/*表格左侧*/
+	background-color:F8F9FD;
+	border-bottom:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+	-border-top:1px solid #CCCCCC;
+	text-align:right;
+	font-size:20px;
+	font-weight:bolder;
+	font-family:"微软雅黑";
+	width:25%;
+	padding-right:15px;
+	padding:8px 15px 8px 0px;
+	background-color:#F8F9FD;
+	}
+	table tr td+td{/*中间*/
+	border-right:0px solid #CCCCCC;
+	width:50%;
+	color:red;
+	font-family:"宋体";
+	font-size:15px;
+	text-align:left;
+	}
+	#info_copt,#info_url,#info_icp,#info_icp_url,#info_qq,#info_wx,#info_wb,#info_wb_url,#info_dz,#info_email,#info_phone{/*输入框*/
+	margin-left:15px;
+	width:490px;
+	height:35px;
+	}
+	#info_show{
+	margin-left:13px;
+	width:30px;
+	height:30px;
+	vertical-align:middle;
+	}
+	#link_show{/*显示*/
+	margin-left:20px;
+	}
+	div{/*左上角文字*/
+	color:#FF0000;
+	background-color:#0099FF;
+	width:1135px;
+	height:30px;
+	display:inline-block;
+	padding:10px 0 0 10px;
+	box-shadow: 1px 1px 5px #888888;
+	}
+	div a{
+	display:inline-block;
+	-padding:4px;
+	text-decoration:none;
+	color:#FFFFFF;
+	}
+	div a:hover{
+	color:#FF0000;
+	font-size:15px;
+	}
+    #info_submit{/*提交*/
+	color:#FF0000;
+	width:110px;
+	height:50px;
+	margin-top:10px;
+	margin-left:305px;
+	background-image:url(images/body.gif);
+	}
+    #info_submit+#info_submit{/*重置*/
+	color:#FF0000;
+    width:110px;
+	height:50px;
+	margin-left:270px;
+	background-image:url(images/body.gif);
+	}
+    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>页脚信息添加页面</title>
+    <script src="./app/view/admin/js/jquery-3.3.1.min.js"></script>
+    <script>
+        
+    </script>
+</head>
+<body>
+    <div id=""><a href="index.php?p=admin&c=Footinfo&a=list">页脚信息列表</a></div>
+    <form method="post" action="index.php?p=admin&c=Footinfo&a=add">
+        <table>
+            <tr>
+                <td>版权所有</td>
+                <td><input type="text" name="info_copy" id="info_copt" /></td>
+                <td id="copttext"></td>
+            </tr>
+            <tr>
+                <td>网址</td>
+                <td><input type="text" name="info_url" id="info_url" /></td>
+                <td id="urltext"></td>
+            </tr>
+            <tr>
+                <td>备案号</td>
+                <td><input type="text" name="info_icp" id="info_icp" /></td>
+                <td id="icptext"></td>
+            </tr>
+            <tr>
+                <td>备案号地址</td>
+                <td><input type="text" name="info_icp_url" id="info_icp_url" /></td>
+                <td id="icpurltext"></td>
+            </tr>
+            <tr>
+                <td>QQ</td>
+                <td><input type="password" name="info_qq" id="info_qq" /></td>
+                <td id="qqtext"></td>
+            </tr>
+            <tr>
+                <td>微信</td>
+                <td><input type="text" name="info_wx" id="info_wx" /></td>
+                <td id="wxtext"></td>
+            </tr>
+            <tr>
+                <td>微博</td>
+                <td><input type="text" name="info_wb" id="info_wb" /></td>
+                <td id="wbtext"></td>
+            </tr>
+            <tr>
+                <td>微博地址</td>
+                <td><input type="text" name="info_wb_url" id="info_wb_url" /></td>
+                <td id="wburltext"></td>
+            </tr>
+            <tr>
+                <td>地址</td>
+                <td><input type="text" name="info_dz" id="info_dz" /></td>
+                <td id="dztext"></td>
+            </tr>
+            <tr>
+                <td>邮编</td>
+                <td><input type="text" name="info_email" id="info_email" /></td>
+                <td id="emailtext"></td>
+            </tr>
+            <tr>
+                <td>电话</td>
+                <td><input type="text" name="info_phone" id="info_phone" /></td>
+                <td id="phonetext"></td>
+            </tr>
+            <tr>
+                <td>是否显示</td>
+                <td><input type="checkbox" id="info_show" name="info_show" value="1" />显示</td>
+                <td>显示请勾选</td>
+            </tr>
+        </table>
+        <input type="submit" id="info_submit" />
+        <input type="reset" id="info_submit" />
+    </form>
+</body>
+</html>
